@@ -1,6 +1,6 @@
 const PopularLicense = () => {
     return (
-      <div className="flex flex-col w-full pt-10 pr-4 pl-4">
+      <div className="flex flex-col w-full pt-10 pr-5 pl-5">
         <p className="text-sm">전우들은 어떤 자격증을 취득했을까?</p>
         <h1 className="text-2xl font-bold text-orange-600">군 내 인기 국가 기술 자격증</h1>
 
