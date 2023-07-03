@@ -1,13 +1,15 @@
-import MainHeader from "./MainHeader";
-import MainUnitRank from "./MainUnitRank";
-import MainPopularLicense from "./MainPopularLicense"
+import Header from "./MainHeader";
+import UnitRank from "./MainUnitRank";
+import PopularLicense from "./MainPopularLicense"
+import Info from "./MainInfo"
 
 const Main = () => {
   return (
     <div>
-      <MainHeader />
-      <MainUnitRank />
-      <MainPopularLicense />
+      <Header />
+      <UnitRank />
+      <PopularLicense />
+      <Info />
     </div>
   );
 }
