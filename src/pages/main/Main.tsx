@@ -1,8 +1,12 @@
 import MainHeader from "./MainHeader";
+import MainUnitRank from "./MainUnitRank";
 
 const Main = () => {
   return (
-    <MainHeader />
+    <div>
+      <MainHeader />
+      <MainUnitRank />
+    </div>
   );
 }
 
