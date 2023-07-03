@@ -27,7 +27,7 @@ const RankCard = (props: RankCardProps) => {
 
 const UnitRank = () => {
   return (
-    <div className="flex flex-col w-full pt-10 pr-4 pl-4">
+    <div className="flex flex-col w-full pt-10 pr-5 pl-5">
       <p className="text-sm">우리 부대 더 강하게!</p>
       <h1 className="text-2xl font-bold text-orange-600">우리 부대 자격증 랭킹</h1>
       <RankCard rank={1} unitName="제8기동사단" mp={1200} />
