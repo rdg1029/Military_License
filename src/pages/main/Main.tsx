@@ -5,12 +5,12 @@ import Info from "./MainInfo"
 
 const Main = () => {
   return (
-    <div>
+    <>
       <Header />
       <UnitRank />
       <PopularLicense />
       <Info />
-    </div>
+    </>
   );
 }
 
