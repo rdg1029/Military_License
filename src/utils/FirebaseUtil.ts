@@ -37,8 +37,6 @@ export const getMilLibraryBookList = async (keyword: string) => {
     }
 
     try{
-        let RESULT_DATA_LIST: LIST_DATA;
-
         let cntData = 0;
         let listBook: Array<BOOK_DATA> = [];
 
@@ -53,13 +51,9 @@ export const getMilLibraryBookList = async (keyword: string) => {
             }
         });
 
-        RESULT_DATA_LIST = {
-            data: listBook
-        };
-
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = RESULT_DATA_LIST;
+        RESULT_DATA.RESULT_DATA = {data: listBook};
     }catch(error){
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
