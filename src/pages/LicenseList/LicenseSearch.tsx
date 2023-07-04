@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const LicenseSearch = () => {
   const [text, setText] = useState("");
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setText(e.currentTarget.value);
   const search = () => console.log(`search value : ${text}`);
 
   return (
