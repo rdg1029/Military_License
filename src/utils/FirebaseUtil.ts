@@ -2,6 +2,7 @@ import {doc, Firestore, getDoc, getFirestore} from "@firebase/firestore";
 import {FirebaseApp, FirebaseOptions, initializeApp} from "@firebase/app";
 
 import dotenv from "dotenv";
+import {API_DATA} from "@/utils/DataClass";
 
 dotenv.config();
 const firebaseConfig: FirebaseOptions = {
@@ -22,7 +23,7 @@ export const initFirebase = () => {
 };
 
 const getFirebaseDB = async (collectionID: string, documentID: string) => {
-    const RESULT_DATA: any = {
+    const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
