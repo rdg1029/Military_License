@@ -28,7 +28,7 @@ const ListPage = (props: Props) => {
   const classNameSelected = "underline underline-offset-4 decoration-4 ";
 
   return (
-    <div className="flex flex-col w-full mt-16 pr-5 pl-5">
+    <div className="flex flex-col w-full h-screen pt-16 pr-5 pl-5">
       <h1 className="text-orange-600 text-3xl font-bold drop-shadow-md">{props.title}</h1>
       <div className="flex flex-row w-full mt-2 mb-3">
         {props.tabs.map((tab, index) => <button key={index} className={index === currentTabNumber ? classNameSelected + classNameTab : classNameTab} onClick={() => setTabNumber(index)}>{tab.name}</button>)}
