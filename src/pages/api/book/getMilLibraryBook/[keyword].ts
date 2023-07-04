@@ -9,6 +9,6 @@ export default async function handler(
   const { keyword } = req.query;
 
   initFirebase();
-  let data = await getMilLibraryBookList(keyword![0]);
+  let data = await getMilLibraryBookList(keyword!.toString());
   res.send(data);
 }
