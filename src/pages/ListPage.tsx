@@ -1,7 +1,7 @@
 /*
-const tab1 = {name: "전체 자격증", component: <Component1 />}
-const tab2 = {name: "병과별 추천", component: <Component2 />}
-const tab3 = {name: "분야별 추천", component: <Component3 />}
+const tab1 = {name: "전체 자격증", component: <Component1 key={...} />}
+const tab2 = {name: "병과별 추천", component: <Component2 key={...} />}
+const tab3 = {name: "분야별 추천", component: <Component3 key={...} />}
 
 ...
 
@@ -31,7 +31,7 @@ const ListPage = (props: Props) => {
     <div className="flex flex-col w-full mt-16 pr-5 pl-5">
       <h1 className="text-orange-600 text-3xl font-bold drop-shadow-md">{props.title}</h1>
       <div className="flex flex-row w-full mt-2 mb-3">
-        {props.tabs.map((tab, index) => <button className={index === currentTabNumber ? classNameSelected + classNameTab : classNameTab} onClick={() => setTabNumber(index)}>{tab.name}</button>)}
+        {props.tabs.map((tab, index) => <button key={index} className={index === currentTabNumber ? classNameSelected + classNameTab : classNameTab} onClick={() => setTabNumber(index)}>{tab.name}</button>)}
       </div>
       {props.tabs[currentTabNumber].component}
     </div>
