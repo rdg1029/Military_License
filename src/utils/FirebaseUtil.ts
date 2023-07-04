@@ -15,6 +15,8 @@ let firebaseApp: FirebaseApp;
 let firebaseDB: Firestore;
 
 export const initFirebase = () => {
-    firebaseApp =  initializeApp(firebaseConfig);
-    firebaseDB = getFirestore();
+    if(firebaseApp === undefined || firebaseDB === undefined) {
+        firebaseApp = initializeApp(firebaseConfig);
+        firebaseDB = getFirestore();
+    }
 };
