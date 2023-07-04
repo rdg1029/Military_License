@@ -1,4 +1,4 @@
-import {Firestore, getFirestore} from "@firebase/firestore";
+import {doc, Firestore, getDoc, getFirestore} from "@firebase/firestore";
 import {FirebaseApp, FirebaseOptions, initializeApp} from "@firebase/app";
 
 import dotenv from "dotenv";
@@ -19,4 +19,30 @@ export const initFirebase = () => {
         firebaseApp = initializeApp(firebaseConfig);
         firebaseDB = getFirestore();
     }
+};
+
+const getFirebaseDB = async (collectionID: string, documentID: string) => {
+    const RESULT_DATA: any = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    const fbDocument = await getDoc(doc(firebaseDB, collectionID, documentID));
+    if(!fbDocument.exists()){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such Database";
+        return RESULT_DATA;
+    }
+
+    try{
+        RESULT_DATA.RESULT_CODE = 200;
+        RESULT_DATA.RESULT_MSG = "Success";
+        RESULT_DATA.RESULT_DATA = fbDocument.data();
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
+    }
+
+    return RESULT_DATA;
 };
