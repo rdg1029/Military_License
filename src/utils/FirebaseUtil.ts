@@ -1,8 +1,8 @@
 import {doc, Firestore, getDoc, getFirestore} from "@firebase/firestore";
 import {FirebaseApp, FirebaseOptions, initializeApp} from "@firebase/app";
+import {API_DATA} from "@/utils/DataClass";
 
 import dotenv from "dotenv";
-import {API_DATA} from "@/utils/DataClass";
 
 dotenv.config();
 const firebaseConfig: FirebaseOptions = {
