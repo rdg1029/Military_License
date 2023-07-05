@@ -1,7 +1,7 @@
 export interface API_DATA{
     RESULT_CODE: number,
     RESULT_MSG: string,
-    RESULT_DATA: LIST_DATA | object
+    RESULT_DATA: LICENSE_DATA | LIST_DATA | object
 }
 
 export interface LIST_DATA{
