@@ -3,6 +3,8 @@ import {FirebaseApp, FirebaseOptions, initializeApp} from "@firebase/app";
 import {API_DATA, BOOK_DATA, LIST_DATA} from "@/utils/DataClass";
 
 import dotenv from "dotenv";
+import {util} from "protobufjs";
+import Array = util.Array;
 
 dotenv.config();
 const firebaseConfig: FirebaseOptions = {
@@ -21,6 +23,70 @@ export const initFirebase = () => {
         firebaseDB = getFirestore();
     }
 };
+
+export const getLicenseDetail = async (code: string) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+    
+    let resultData = {
+        content: "",
+        schedule: [],
+        strGualgbcd: "",
+        strGualgbnm: "",
+        strJmfldnm: "",
+        strMdobligfldcd: "",
+        strMdobligfldnm: "",
+        strObligfldcd: "",
+        strObligfldnm: "",
+        strSeriescd: "",
+        strSeriesnm: "",
+    }
+
+    let fbDocument = await getDoc(doc(firebaseDB, "License", code));
+    if(!fbDocument.exists()){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such Database";
+        return RESULT_DATA;
+    }
+    
+    try{
+        resultData.strGualgbcd = fbDocument.get("strGualgbcd");
+        resultData.strGualgbnm = fbDocument.get("strGualgbnm");
+        resultData.strJmfldnm = fbDocument.get("strJmfldnm");
+        resultData.strMdobligfldcd = fbDocument.get("strMdobligfldcd");
+        resultData.strMdobligfldnm = fbDocument.get("strMdobligfldnm");
+        resultData.strObligfldcd = fbDocument.get("strObligfldcd");
+        resultData.strObligfldnm = fbDocument.get("strObligfldnm");
+        resultData.strSeriescd = fbDocument.get("strSeriescd");
+        resultData.strSeriesnm = fbDocument.get("strSeriesnm");
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
+        return RESULT_DATA;
+    }
+
+    fbDocument = await getDoc(doc(firebaseDB, "LicenseContent", code));
+    if(!fbDocument.exists()){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such Database";
+        return RESULT_DATA;
+    }
+
+    try{
+        resultData.content = fbDocument.get("content");
+        resultData.schedule = fbDocument.get("schedule");
+        RESULT_DATA.RESULT_DATA = resultData;
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
+        return RESULT_DATA;
+    }
+
+    return RESULT_DATA;
+}
 
 export const getMilLibraryBookList = async (keyword: string) => {
     const RESULT_DATA: API_DATA = {
