@@ -10,7 +10,7 @@ const tab3 = {name: "분야별 추천", component: <Component3 key={...} />}
     tabs={[tab1, tab2, tab3]} />
 */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Tab {
   name: string;
@@ -23,11 +23,14 @@ interface Props {
 }
 
 const ListPage = (props: Props) => {
+  const [isMounted, setMounted] = useState(false);
   const [currentTabNumber, setTabNumber] = useState(0);
   const classNameTab = "text-lime-800 font-semibold mr-3 ";
   const classNameSelected = "underline underline-offset-4 decoration-4 ";
 
-  return (
+  useEffect(() => setMounted(true), []);
+
+  return (isMounted &&
     <div className="flex flex-col w-full h-screen pt-16 pr-5 pl-5">
       <h1 className="text-orange-600 text-3xl font-bold drop-shadow-md">{props.title}</h1>
       <div className="flex flex-row w-full mt-2 mb-3">
