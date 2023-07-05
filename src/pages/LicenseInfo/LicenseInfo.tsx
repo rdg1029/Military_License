@@ -11,13 +11,12 @@ const Content = (props: {children: React.ReactNode}) => {
   return <div className="w-fit text-sm text-lime-800 font-semibold bg-orange-100 rounded drop-shadow p-1 mb-2">{props.children}</div>
 }
 
-const BookContent = (props: {title: string, publisher: string, author: string, publishYear: string}) => {
+const BookContent = (props: {title: string, publisher: string, author: string}) => {
   return (
     <div className="flex flex-col grow-0 shrink-0 w-32 bg-orange-100 rounded drop-shadow p-1 m-1.5">
       <div className="text-lime-800 font-bold pb-2">{props.title}</div>
       <div className="text-lime-800 text-sm">출판사: {props.publisher}</div>
       <div className="text-lime-800 text-sm">저자: {props.author}</div>
-      <div className="text-lime-800 text-sm">출판 년도: {props.publishYear}</div>
     </div>
   );
 }
@@ -47,10 +46,10 @@ const LicenseInfo = (props: Props) => {
         <SubTitle>관련 서적</SubTitle>
       </div>
       <div className="flex flex-nowrap w-full overflow-x-scroll pl-5 pr-5">
-        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" publishYear="2018" />
-        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" publishYear="2018" />
-        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" publishYear="2018" />
-        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" publishYear="2018" />
+        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" />
+        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" />
+        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" />
+        <BookContent title="전기(공사)기사 산업기사" publisher="에듀윌" author="김상훈" />
       </div>
     </>
   );
