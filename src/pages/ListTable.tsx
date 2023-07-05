@@ -23,11 +23,11 @@ const ListTable = (props: Props) => {
 
   return (isMounted && 
   <table className="w-full text-center">
-    <thead className="text-xs text-orange-600 border-b border-orange-600">
-      {props.tableHead.map((thData, index) => <th key={index} className="font-medium">{thData}</th>)}
+    <thead className="text-s text-df-orange border-b border-df-orange">
+      {props.tableHead.map((thData, index) => <th key={index} className="font-extrabold">{thData}</th>)}
     </thead>
     <tbody>
-      {props.tableData.map((row, index) => <tr key={index}>{row.map((col, index) => <td key={index} className="border-b border-orange-600 pt-1.5 pb-1.5">{col}</td>)}</tr>)}
+      {props.tableData.map((row, index) => <tr key={index}>{row.map((col, index) => <td key={index} className="border-b border-df-orange text-df-green font-extrabold pt-1.5 pb-1.5">{col}</td>)}</tr>)}
     </tbody>
   </table>
   );

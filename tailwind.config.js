@@ -7,10 +7,14 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        'df-orange' : '#E86A33',
+        'df-green' : '#41644A',
+        'df-orange-opacity' : 'rgba(242, 227, 219, 0.70)',
+        'df-green-opacity' : 'rgba(65, 100, 74, 0.80)',
+      },
+      spacing: {
+        '85' : '22rem',
       },
     },
   },
