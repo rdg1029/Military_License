@@ -12,12 +12,12 @@ const UserInformation = () => {
       </div>
       <div>
         {/*유저 정보 */}
-        <div className="flex justify-center items-center w-85 h-80 bg-df-orange-opacity rounded-3xl drop-shadow-md absoulte -z-10">
+        <div className="flex justify-center items-center w-85 h-80 bg-df-orange-opacity rounded-2xl drop-shadow-md absoulte -z-10">
       
-          <div className="flex flex-col justify-around items-start w-full h-4/5 pl-5 pt-5">
+          <div className="flex flex-col justify-around items-start w-full h-4/5 pl-5 pt-7">
             {/*유저 부대 정보 및 계급 */}
             <div className="flex flex-col justify-between w-32">
-              <p className="text-base font-extrabold text-df-orange">
+              <p className="text-lg font-extrabold text-df-orange">
                 제8기동사단
               </p>
               <div className="flex flex-row justify-between items-center">
@@ -32,7 +32,7 @@ const UserInformation = () => {
             <div className="flex flex-row justify-between items-center w-72">
               {/*MP */}
               <div className="flex flex-col justify-start">
-                <p className="text-base font-extrabold text-df-orange">MP</p>
+                <p className="text-lg font-extrabold text-df-orange">MP</p>
                 <p className="text-3xl font-extrabold text-df-green">100</p>
               </div>
 
@@ -47,10 +47,10 @@ const UserInformation = () => {
 
             {/*한줄소개*/}
             <div className="flex flex-col justify-start">
-              <p className="text-base font-extrabold text-df-orange">
+              <p className="text-lg font-extrabold text-df-orange">
                 한줄 소개
               </p>
-              <p className="text-base font-extrabold text-df-green">
+              <p className="text-lg font-extrabold text-df-green">
                 &quot;백절불굴 부전상립&quot;
               </p>
             </div>
