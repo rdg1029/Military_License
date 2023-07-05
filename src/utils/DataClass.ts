@@ -13,3 +13,17 @@ export interface BOOK_DATA{
     publisher: string,
     title: string
 }
+
+export interface LICENSE_DATA{
+    content: string,
+    schedule: Array<string>,
+    strGualgbcd: string,
+    strGualgbnm: string,
+    strJmfldnm: string,
+    strMdobligfldcd: string,
+    strMdobligfldnm: string,
+    strObligfldcd: string,
+    strObligfldnm: string,
+    strSeriescd: string,
+    strSeriesnm: string,
+}
