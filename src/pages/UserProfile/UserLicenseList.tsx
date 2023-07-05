@@ -14,7 +14,7 @@ import ListTable from "../ListTable";
 
 const UserLicenseList = () => {
   return (
-    <div>
+    <>
       <div className="flex justify-center items-center w-85 h-full bg-df-orange-opacity drop-shadow-md rounded-2xl">
         <div className="w-80 m-5">
           <ListTable
@@ -27,7 +27,7 @@ const UserLicenseList = () => {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
