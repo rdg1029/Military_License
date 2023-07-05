@@ -25,5 +25,5 @@ export interface LICENSE_DATA{
     strObligfldcd: string,
     strObligfldnm: string,
     strSeriescd: string,
-    strSeriesnm: string,
+    strSeriesnm: string
 }
