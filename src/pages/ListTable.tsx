@@ -27,7 +27,7 @@ const ListTable = (props: Props) => {
       {props.tableHead.map((thData, index) => <th key={index} className="font-medium">{thData}</th>)}
     </thead>
     <tbody>
-      {props.tableData.map((row, index) => <tr key={index}>{row.map((col, index) => <td key={index} className="border-b border-orange-600 pt-1.5 pb-1.5">{col}</td>)}</tr>)}
+      {props.tableData.map((row, index) => <tr key={index}>{row.map((col, index) => <td key={index} className="border-b border-df-orange text-df-green font-extrabold pt-1.5 pb-1.5">{col}</td>)}</tr>)}
     </tbody>
   </table>
   );
