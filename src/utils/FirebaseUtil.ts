@@ -1,6 +1,7 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
 import { initializeApp, FirebaseApp, FirebaseOptions } from "@firebase/app";
-import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass";
+import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass"
+import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
 
 import dotenv from "dotenv";
 
@@ -234,8 +235,16 @@ export const verifyUser = async (token: string) => {
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
     }
-    
-    return RESULT_DATA;
+
+    initFirebaseAuth();
+    let uid = verifyToken(token);
+    if(uid == -1){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such User";
+        return RESULT_DATA;
+    }
+
+    return getUserData(uid.toString());
 }
 
 const getFirebaseDB = async (collectionID: string, documentID: string) => {
