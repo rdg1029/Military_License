@@ -1,4 +1,4 @@
-import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
+import {collection, doc, Firestore, getDoc, getDocs, getFirestore, setDoc} from "@firebase/firestore";
 import { initializeApp, FirebaseApp, FirebaseOptions } from "@firebase/app";
 import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass"
 import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
@@ -220,13 +220,9 @@ export const getUserData = async (uid: string) => {
 }
 
 export const registerUser = async (uid: string, userData: USER_DATA) => {
-    const RESULT_DATA: API_DATA = {
-        RESULT_CODE: 0,
-        RESULT_MSG: "Ready",
-        RESULT_DATA: {}
-    }
+    setFirebaseDB("User", uid, userData);
 
-    return RESULT_DATA;
+    return getUserData(uid);
 }
 
 export const verifyUser = async (token: string) => {
@@ -265,6 +261,28 @@ const getFirebaseDB = async (collectionID: string, documentID: string) => {
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
         RESULT_DATA.RESULT_DATA = fbDocument.data();
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
+    }
+
+    return RESULT_DATA;
+};
+
+const setFirebaseDB = async (collectionID: string, documentID: string, userData: USER_DATA) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    const fbDocument = doc(firebaseDB, collectionID, documentID);
+
+    try{
+        RESULT_DATA.RESULT_CODE = 200;
+        RESULT_DATA.RESULT_MSG = "Success";
+
+        await setDoc(fbDocument, userData);
     }catch(error){
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
