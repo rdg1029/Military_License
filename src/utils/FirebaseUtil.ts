@@ -355,16 +355,6 @@ export const getRankByUnit = async () => {
     return RESULT_DATA
 }
 
-export const getRankMain = async () => {
-    const RESULT_DATA: API_DATA = {
-        RESULT_CODE: 0,
-        RESULT_MSG: "Ready",
-        RESULT_DATA: {}
-    }
-
-    return RESULT_DATA
-}
-
 const getFirebaseDB = async (collectionID: string, documentID: string) => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
