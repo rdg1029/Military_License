@@ -214,7 +214,7 @@ export const getMilLibraryBookList = async (keyword: string) => {
     return RESULT_DATA;
 }
 
-const getRankFromUnit = async () => {
+export const getRankFromUnit = async () => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
@@ -224,7 +224,7 @@ const getRankFromUnit = async () => {
     return RESULT_DATA
 }
 
-const getRankByBranch = async () => {
+export const getRankByBranch = async () => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
@@ -234,7 +234,7 @@ const getRankByBranch = async () => {
     return RESULT_DATA
 }
 
-const getRankByUnit = async () => {
+export const getRankByUnit = async () => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
@@ -244,9 +244,7 @@ const getRankByUnit = async () => {
     return RESULT_DATA
 }
 
-
-
-const getRankMain = async () => {
+export const getRankMain = async () => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
