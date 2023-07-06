@@ -214,7 +214,7 @@ export const getMilLibraryBookList = async (keyword: string) => {
     return RESULT_DATA;
 }
 
-export const getRankFromUnit = async () => {
+export const getRankFromUnit = async (unit: string) => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
