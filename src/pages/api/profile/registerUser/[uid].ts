@@ -6,9 +6,9 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<API_DATA>
 ) {
-  const { token } = req.query;
+  const { uid } = req.query;
 
   initFirebase();
-  let data = await registerUser(token!.toString(), []);
+  let data = await registerUser(uid!.toString(), []);
   res.send(data);
 }
