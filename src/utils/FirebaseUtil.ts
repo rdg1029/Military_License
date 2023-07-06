@@ -1,6 +1,7 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import {API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA} from "@/utils/DataClass";
+import { Auth, getAuth } from "@firebase/auth";
+import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass";
 
 import dotenv from "dotenv";
 
@@ -13,11 +14,17 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 let firebaseApp: FirebaseApp;
+let firebaseAuth: Auth;
 let firebaseDB: Firestore;
 
 export const initFirebase = () => {
-    if(firebaseApp === undefined || firebaseDB === undefined) {
+    if(firebaseApp === undefined){
         firebaseApp = initializeApp(firebaseConfig);
+    }
+    if(firebaseAuth === undefined){
+        firebaseAuth = getAuth();
+    }
+    if(firebaseDB === undefined){
         firebaseDB = getFirestore();
     }
 };
