@@ -1,6 +1,5 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
-import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import { Auth, getAuth } from "@firebase/auth";
+import { initializeApp, FirebaseApp, FirebaseOptions } from "@firebase/app";
 import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass";
 
 import dotenv from "dotenv";
@@ -14,18 +13,12 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 let firebaseApp: FirebaseApp;
-let firebaseAuth: Auth;
 let firebaseDB: Firestore;
 
 export const initFirebase = () => {
-    if(firebaseApp === undefined){
+    if(firebaseApp === undefined || firebaseDB === undefined){
         firebaseApp = initializeApp(firebaseConfig);
-    }
-    if(firebaseAuth === undefined){
-        firebaseAuth = getAuth();
-    }
-    if(firebaseDB === undefined){
-        firebaseDB = getFirestore();
+        firebaseDB = getFirestore(firebaseApp);
     }
 };
 
@@ -241,7 +234,7 @@ export const verifyUser = async (token: string) => {
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
     }
-
+    
     return RESULT_DATA;
 }
 
