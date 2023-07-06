@@ -1,13 +1,11 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { getLicenseListAll, initFirebase } from "@/utils/FirebaseUtil";
+import { API_DATA } from "@/utils/DataClass";
 
-type Data = {
-  name: string
-}
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<API_DATA>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  initFirebase();
+  res.send(await getLicenseListAll());
 }
