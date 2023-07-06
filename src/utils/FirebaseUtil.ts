@@ -1,10 +1,8 @@
-import {collection, doc, Firestore, getDoc, getDocs, getFirestore} from "@firebase/firestore";
-import {FirebaseApp, FirebaseOptions, initializeApp} from "@firebase/app";
-import {API_DATA, BOOK_DATA, LICENSE_LIST_DATA} from "@/utils/DataClass";
+import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
+import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
+import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA } from "@/utils/DataClass";
 
 import dotenv from "dotenv";
-import {util} from "protobufjs";
-import Array = util.Array;
 
 dotenv.config();
 const firebaseConfig: FirebaseOptions = {
