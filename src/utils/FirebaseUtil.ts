@@ -214,6 +214,48 @@ export const getMilLibraryBookList = async (keyword: string) => {
     return RESULT_DATA;
 }
 
+const getRankFromUnit = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA
+}
+
+const getRankByBranch = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA
+}
+
+const getRankByUnit = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA
+}
+
+
+
+const getRankMain = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA
+}
+
 const getFirebaseDB = async (collectionID: string, documentID: string) => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
