@@ -173,3 +173,81 @@ const NavyClassEventMap = [
     eventArr: [2, 7]
   },
 ]
+
+const AirForceClassEventMap = [
+  {
+    classCode: "af1",
+    clssName: "조종",
+    eventArr: [15, 16, 17, 18, 20, 21, 25, 26]
+  },
+  {
+    classCode: "af2",
+    clssName: "항공통제",
+    eventArr: [15, 16, 17, 18, 20, 21, 25, 26]
+  },
+  {
+    classCode: "af3",
+    clssName: "방공포병",
+    eventArr: [15, 16, 17, 18, 20, 21, 25, 26]
+  },
+  {
+    classCode: "af4",
+    clssName: "정보",
+    eventArr: [2, 20, 21]
+  },
+  {
+    classCode: "af5",
+    clssName: "군수",
+    eventArr: [2, 15, 16, 17, 18, 20, 21, 25, 26]
+  },
+  {
+    classCode: "af6",
+    clssName: "정보통신",
+    eventArr: [2, 20, 21]
+  },
+  {
+    classCode: "af7",
+    clssName: "기상",
+    eventArr: [25, 26]
+  },
+  {
+    classCode: "af8",
+    clssName: "공병",
+    eventArr: [14, 15, 16, 17, 20, 21, 25]
+  },
+  {
+    classCode: "af9",
+    clssName: "재정",
+    eventArr: [2, 7]
+  },
+  {
+    classCode: "af10",
+    clssName: "공보정훈",
+    eventArr: [2, 8, 12, 21, 23]
+  },
+  {
+    classCode: "af11",
+    clssName: "군사경찰",
+    eventArr: [2, 7]
+  },
+  {
+    classCode: "af12",
+    clssName: "인사교육",
+    eventArr: [2, 7]
+  },
+  {
+    classCode: "af13",
+    clssName: "의무",
+    eventArr: [2, 6, 26]
+  },
+  {
+    classCode: "af14",
+    clssName: "법무",
+    eventArr: [2]
+  },
+  {
+    classCode: "af15",
+    clssName: "군종",
+    eventArr: [2, 7]
+  }
+]
