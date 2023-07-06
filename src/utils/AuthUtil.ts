@@ -10,7 +10,7 @@ export const initFirebaseAuth = () => {
     });
 }
 
-export const verifyToken = (strToken: string) => {
+export const verifyToken = (strToken: string): string | number => {
     getAuth()
         .verifyIdToken(strToken)
         .then((decodedToken) => {
@@ -18,6 +18,6 @@ export const verifyToken = (strToken: string) => {
         })
         .catch((error) => {
             console.log(error);
-            return -1;
         });
+    return -1;
 }
