@@ -1,6 +1,6 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA } from "@/utils/DataClass";
+import {API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA} from "@/utils/DataClass";
 
 import dotenv from "dotenv";
 
@@ -209,6 +209,36 @@ export const getMilLibraryBookList = async (keyword: string) => {
     }catch(error){
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
+    }
+
+    return RESULT_DATA;
+}
+
+export const getUserData = async (uid: string) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA;
+}
+
+export const registerUser = async (uid: string, userData: USER_DATA) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA;
+}
+
+export const verifyUser = async (token: string) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
     }
 
     return RESULT_DATA;
