@@ -1,6 +1,6 @@
 import {collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where} from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import {API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_USER_DATA} from "@/utils/DataClass";
+import {API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_UNIT_DATA, RANK_USER_DATA} from "@/utils/DataClass";
 
 import dotenv from "dotenv";
 
@@ -264,6 +264,45 @@ export const getRankByUnit = async () => {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
+    }
+
+    const fbDocument = await getDocs(collection(firebaseDB, "Unit"));
+    if(fbDocument.empty){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such Database";
+        return RESULT_DATA;
+    }
+
+    try{
+        let listUnit: Array<RANK_UNIT_DATA> = []
+
+        fbDocument.forEach((curDoc) => {
+            let tmpList = curDoc.get("list");
+            tmpList.forEach((curUnit: RANK_UNIT_DATA) => {
+                listUnit.push({
+                    name: curUnit.name,
+                    mp: curUnit.mp
+                });
+            })
+        });
+
+        listUnit.sort((unitA, unitB) => {
+            if(unitA.mp == unitB.mp){
+                if(unitA.name > unitB.name){
+                    return 1;
+                }else{
+                    return -1;
+                }
+            }
+            return unitB.mp - unitA.mp;
+        });
+
+        RESULT_DATA.RESULT_CODE = 200;
+        RESULT_DATA.RESULT_MSG = "Success";
+        RESULT_DATA.RESULT_DATA = {data: listUnit};
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
     }
 
     return RESULT_DATA
