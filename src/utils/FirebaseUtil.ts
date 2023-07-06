@@ -215,13 +215,7 @@ export const getMilLibraryBookList = async (keyword: string) => {
 }
 
 export const getUserData = async (uid: string) => {
-    const RESULT_DATA: API_DATA = {
-        RESULT_CODE: 0,
-        RESULT_MSG: "Ready",
-        RESULT_DATA: {}
-    }
-
-    return RESULT_DATA;
+    return getFirebaseDB("User", uid);
 }
 
 export const registerUser = async (uid: string, userData: USER_DATA) => {
