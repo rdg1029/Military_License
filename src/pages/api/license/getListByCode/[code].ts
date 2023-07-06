@@ -6,8 +6,8 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<API_DATA>
 ) {
-  const { code } = req.query;
+    const { code } = req.query;
 
-  initFirebase();
-  res.send(await getLicenseListByCode(code!.toString()));
+    initFirebase();
+    res.send(await getLicenseListByCode(code!.toString()));
 }
