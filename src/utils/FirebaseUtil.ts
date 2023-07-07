@@ -1,6 +1,7 @@
-import { collection, doc, Firestore, getDoc, getDocs, getFirestore } from "@firebase/firestore";
-import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA } from "@/utils/DataClass";
+import {collection, doc, Firestore, getDoc, getDocs, getFirestore, setDoc} from "@firebase/firestore";
+import { initializeApp, FirebaseApp, FirebaseOptions } from "@firebase/app";
+import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, USER_DATA } from "@/utils/DataClass"
+import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
 
 import dotenv from "dotenv";
 
@@ -16,9 +17,9 @@ let firebaseApp: FirebaseApp;
 let firebaseDB: Firestore;
 
 export const initFirebase = () => {
-    if(firebaseApp === undefined || firebaseDB === undefined) {
+    if(firebaseApp === undefined || firebaseDB === undefined){
         firebaseApp = initializeApp(firebaseConfig);
-        firebaseDB = getFirestore();
+        firebaseDB = getFirestore(firebaseApp);
     }
 };
 
@@ -214,6 +215,34 @@ export const getMilLibraryBookList = async (keyword: string) => {
     return RESULT_DATA;
 }
 
+export const getUserData = async (uid: string) => {
+    return getFirebaseDB("User", uid);
+}
+
+export const registerUser = async (uid: string, userData: USER_DATA) => {
+    setFirebaseDB("User", uid, userData);
+
+    return getUserData(uid);
+}
+
+export const verifyUser = async (token: string) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    initFirebaseAuth();
+    let uid = verifyToken(token);
+    if(uid == -1){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such User";
+        return RESULT_DATA;
+    }
+
+    return getUserData(uid.toString());
+}
+
 const getFirebaseDB = async (collectionID: string, documentID: string) => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
@@ -232,6 +261,28 @@ const getFirebaseDB = async (collectionID: string, documentID: string) => {
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
         RESULT_DATA.RESULT_DATA = fbDocument.data();
+    }catch(error){
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
+    }
+
+    return RESULT_DATA;
+};
+
+const setFirebaseDB = async (collectionID: string, documentID: string, userData: USER_DATA) => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    const fbDocument = doc(firebaseDB, collectionID, documentID);
+
+    try{
+        RESULT_DATA.RESULT_CODE = 200;
+        RESULT_DATA.RESULT_MSG = "Success";
+
+        await setDoc(fbDocument, userData);
     }catch(error){
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
