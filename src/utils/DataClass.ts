@@ -5,7 +5,7 @@ export interface API_DATA{
 }
 
 export interface LIST_DATA{
-    data: Array<BOOK_DATA | LICENSE_LIST_DATA>
+    data: Array<BOOK_DATA | LICENSE_LIST_DATA | RANK_BRANCH_DATA | RANK_UNIT_DATA | RANK_USER_DATA>
 }
 
 export interface BOOK_DATA{
@@ -38,4 +38,36 @@ export interface LICENSE_LIST_DATA{
     strObligfldnm: string,
     strSeriescd: string,
     strSeriesnm: string
+}
+
+export interface RANK_BRANCH_DATA{
+    name: string,
+    mp: number
+}
+
+export interface RANK_UNIT_DATA{
+    name: string,
+    mp: number
+}
+
+export interface RANK_USER_DATA{
+    name: string,
+    mp: number
+}
+
+export interface USER_DATA{
+    comment: string,
+    email: string,
+    license_list: Array<USER_LICENSE_ITEM>,
+    military_rank: string,
+    military_type: string,
+    mp: number,
+    name: string,
+    phone: string,
+    unit: string
+}
+
+export interface USER_LICENSE_ITEM{
+    date: string,
+    name: string
 }
