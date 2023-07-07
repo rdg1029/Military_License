@@ -54,3 +54,20 @@ export interface RANK_USER_DATA{
     name: string,
     mp: number
 }
+
+export interface USER_DATA{
+    comment: string,
+    email: string,
+    license_list: Array<USER_LICENSE_ITEM>,
+    military_rank: string,
+    military_type: string,
+    mp: number,
+    name: string,
+    phone: string,
+    unit: string
+}
+
+export interface USER_LICENSE_ITEM{
+    date: string,
+    name: string
+}
