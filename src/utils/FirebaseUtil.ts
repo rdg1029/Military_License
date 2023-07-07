@@ -1,7 +1,7 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where, setDoc} from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
 
-import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_BRANCH_DATA, RANK_UNIT_DATA, RANK_USER_DATAUSER_DATA } from "@/utils/DataClass"
+import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_BRANCH_DATA, RANK_UNIT_DATA, RANK_USER_DATA, USER_DATA } from "@/utils/DataClass"
 import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
 
 import dotenv from "dotenv";
@@ -302,6 +302,12 @@ export const getRankByBranch = async () => {
 }
 
 export const getRankByUnit = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+    
     const fbDocument = await getDocs(collection(firebaseDB, "Unit"));
     if(fbDocument.empty){
         RESULT_DATA.RESULT_CODE = 100;
