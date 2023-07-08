@@ -12,7 +12,9 @@ const LicenseList = () => {
   const [isLoaded, setLoaded] = useState<Boolean>(false);
   const [listAll, setListAll] = useState<Array<LICENSE_LIST_DATA>>([]);
   const [selectClassCode, setSelectClassCode] = useState<string>();
+  const [selectJmCode, setSelectJmCode] = useState<string>();
   const [listByClass, setListByClass] = useState<Array<LICENSE_LIST_DATA>>([]);
+  const [listByType, setListByType] = useState<Array<LICENSE_LIST_DATA>>([]);
 
   useEffect(() => {
     const req = axios.create();
@@ -50,6 +52,18 @@ const LicenseList = () => {
     }
   }, [selectClassCode]);
 
+  useEffect(() => {
+    const req = axios.create();
+
+    req
+      .get(`/api/license/getListByCode/${selectJmCode}`)
+      .then((res) => {
+        console.log(res);
+        setListByType(res.data.RESULT_DATA.data);
+      })
+      .catch((err) => console.log(err));
+  }, [selectJmCode]);
+
   return isLoaded ? (
     <>
       <ListPage
@@ -65,7 +79,7 @@ const LicenseList = () => {
               />
             ),
           },
-          { name: "분야별 추천", component: <ListByType /> },
+          { name: "분야별 추천", component: <ListByType list={listByType} setSelectJmCode={setSelectJmCode} /> },
           { name: "전체 취득순", component: <ListInOrder /> },
         ]}
       />
