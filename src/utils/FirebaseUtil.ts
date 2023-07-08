@@ -231,6 +231,7 @@ export const getLicenseListByCount = async () => {
             listLicense.forEach((curLicense) => {
                 if(curLicense.licenseCode == licenseCode){
                     curLicense.count++;
+                    return;
                 }
             });
         })
