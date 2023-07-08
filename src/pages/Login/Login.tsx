@@ -1,8 +1,15 @@
-import React, { useEffect, useReducer, useState } from "react";
-import Router from "next/router";
+import React, { useEffect } from "react";
 import LoginWithGoogle from "./LoginWithGoogle";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { initFirebase } from "@/utils/FirebaseUtil";
 
 const Login = () => {
+  useEffect(() => {
+    initFirebase();
+    onAuthStateChanged(getAuth(), user => {
+      if (user?.uid) window.location.replace("/UserProfile");
+    });
+  }, []);
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
