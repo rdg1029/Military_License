@@ -19,6 +19,8 @@ let firebaseApp: FirebaseApp;
 let firebaseAuth: Auth;
 let firebaseDB: Firestore;
 
+export let userToken : string;
+
 export const initFirebase = () => {
     if (firebaseApp === undefined || firebaseAuth === undefined || firebaseDB === undefined) {
         firebaseApp = initializeApp(firebaseConfig);
@@ -434,7 +436,8 @@ export const SignInGoogle = async () => {
 
     await signInWithPopup(firebaseAuth, provider)
     .then(async (result) => {
-        let userToken = await result.user.getIdToken();
+        userToken = await result.user.getIdToken();
+        console.log(userToken);
     })
     .catch((error) => {
         console.log(`Error: ${error}`);

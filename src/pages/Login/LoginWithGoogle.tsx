@@ -1,17 +1,18 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { SignInGoogle, initFirebase } from "@/utils/FirebaseUtil";
 
-const clickHandler = () => {
-  initFirebase();
-  SignInGoogle();
-};
-
 const LoginWithGoogle = () => {
+
+  const clickHandler = () => {
+    //firebase 관련 함수를 사용하기 전에 init이 필요함.
+    initFirebase();
+    SignInGoogle();
+  };
+
   return (
     <div>
-
       <button
         className="w-72 h-20 bg-df-orange-opacity text-df-green rounded-2xl drop-shadow-md"
         onClick={clickHandler}

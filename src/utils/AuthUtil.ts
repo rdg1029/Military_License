@@ -2,6 +2,7 @@ import { credential } from "firebase-admin";
 import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from "firebase-admin/auth";
 
+
 export const initFirebaseAuth = () => {
     let serviceAccount = require("firebase-admin-account.json");
     // let serviceAccount = require("D:\\Projects\\Web\\ECOmunity-BE\\firebase-admin-account.json");
