@@ -26,7 +26,7 @@ const LicenseListAll = (props: Props) => {
       <Search />
       <div className="grow flex flex-col w-full overflow-y-scroll">
         <ListTable
-          tableHead={["자격증", "증분류", "계열"]}
+          tableHead={["자격증", "증분류", "구분"]}
           tableData={listData} />
       </div>
     </>

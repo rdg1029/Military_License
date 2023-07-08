@@ -6,7 +6,7 @@ import ListByType from "./LicenseListByType";
 import ListInOrder from "./LicenseListInOrder";
 import axios from "axios";
 import { ClassEventMap } from "@/utils/ClassEventMap";
-import { LICENSE_LIST_DATA } from "@/utils/DataClass";
+import { LICENSE_LIST_COUNT_DATA, LICENSE_LIST_DATA } from "@/utils/DataClass";
 
 const LicenseList = () => {
   const [isLoaded, setLoaded] = useState<Boolean>(false);
@@ -15,6 +15,9 @@ const LicenseList = () => {
   const [selectJmCode, setSelectJmCode] = useState<string>();
   const [listByClass, setListByClass] = useState<Array<LICENSE_LIST_DATA>>([]);
   const [listByType, setListByType] = useState<Array<LICENSE_LIST_DATA>>([]);
+  const [listByCout, setListByCount] = useState<Array<LICENSE_LIST_COUNT_DATA>>(
+    []
+  );
 
   useEffect(() => {
     const req = axios.create();
@@ -25,6 +28,15 @@ const LicenseList = () => {
         setLoaded(true);
         console.log(res);
         console.log("all items loaded");
+      })
+      .catch((err) => console.log(err));
+
+    const req1 = axios.create();
+    req1
+      .get("/api/license/getListByCount")
+      .then((res) => {
+        setListByCount(res.data.RESULT_DATA.data);
+        console.log("count data loaded");
       })
       .catch((err) => console.log(err));
   }, []);
@@ -79,8 +91,13 @@ const LicenseList = () => {
               />
             ),
           },
-          { name: "분야별 추천", component: <ListByType list={listByType} setSelectJmCode={setSelectJmCode} /> },
-          { name: "전체 취득순", component: <ListInOrder /> },
+          {
+            name: "분야별 추천",
+            component: (
+              <ListByType list={listByType} setSelectJmCode={setSelectJmCode} />
+            ),
+          },
+          { name: "전체 취득순", component: <ListInOrder list={listByCout} /> },
         ]}
       />
     </>

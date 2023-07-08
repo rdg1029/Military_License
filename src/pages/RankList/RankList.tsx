@@ -16,8 +16,8 @@ const RankList = () => {
   const [rankFromUnit, setRankFromUnit] = useState<Array<RANK_USER_DATA>>([]);
 
   useEffect(() => {
-    const req = axios.create();
-    req
+    const req1 = axios.create();
+    req1
       .get("/api/ranking/getRankByBranch")
       .then((res) => {
         setRankByBranch(res.data.RESULT_DATA.data);
@@ -26,7 +26,8 @@ const RankList = () => {
       })
       .catch((err) => console.log(err));
 
-    req
+    const req2 = axios.create();
+    req2
       .get("/api/ranking/getRankByUnit")
       .then((res) => {
         setRankByUnit(res.data.RESULT_DATA.data);
@@ -41,7 +42,7 @@ const RankList = () => {
       title="밀리센스 랭킹"
       tabs={[
         { name: "군종별 랭킹", component: <ListANA list={rankByBranch} /> },
-        { name: "부대별 랭킹", component: <ListUnit list={rankByUnit}/> },
+        { name: "부대별 랭킹", component: <ListUnit list={rankByUnit} /> },
         { name: "우리 부대 랭킹", component: <ListAll /> },
       ]}
     />
