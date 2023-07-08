@@ -121,6 +121,7 @@ export const getLicenseListAll = async () => {
 
         fbDocument.forEach((curDoc) => {
             let tmpData = {
+                licenseCode: curDoc.id,
                 strGualgbcd: curDoc.get("strGualgbcd"),
                 strGualgbnm: curDoc.get("strGualgbnm"),
                 strJmfldnm: curDoc.get("strJmfldnm"),
@@ -165,6 +166,7 @@ export const getLicenseListByCode = async (code: string) => {
         fbDocument.forEach((curDoc) => {
             if (curDoc.get("strObligfldcd") == code) {
                 let tmpData = {
+                    licenseCode: curDoc.id,
                     strGualgbcd: curDoc.get("strGualgbcd"),
                     strGualgbnm: curDoc.get("strGualgbnm"),
                     strJmfldnm: curDoc.get("strJmfldnm"),
