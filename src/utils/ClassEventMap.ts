@@ -6,12 +6,12 @@ export const ClassEventMap = [
   },
   {
     classCode: "a2",
-    clssName: "기갑",
+    className: "기갑",
     eventArr: ["15", "16", "17", "18", "20", "21", "25", "26"]
   },
   {
     classCode: "a3",
-    clssName: "포병",
+    className: "포병",
     eventArr: ["15", "16", "17", "18", "20", "21", "25", "26"]
   },
   {
