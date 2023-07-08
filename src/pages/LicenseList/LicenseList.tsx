@@ -27,7 +27,7 @@ const LicenseList = () => {
     <ListPage
       title="국가 기술 자격증 추천"
       tabs={[
-        {name: "전체 자격증", component: <ListAll />},
+        {name: "전체 자격증", component: <ListAll list={listAll} />},
         {name: "병과별 추천", component: <ListByClass />},
         {name: "분야별 추천", component: <ListByType />},
         {name: "전체 취득순", component: <ListInOrder />},
