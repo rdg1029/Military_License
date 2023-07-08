@@ -181,6 +181,16 @@ export const getLicenseListByCode = async (code: string) => {
     return RESULT_DATA
 }
 
+export const getLicenseListByCount = async () => {
+    const RESULT_DATA: API_DATA = {
+        RESULT_CODE: 0,
+        RESULT_MSG: "Ready",
+        RESULT_DATA: {}
+    }
+
+    return RESULT_DATA
+}
+
 export const getMilLibraryBookList = async (keyword: string) => {
     const RESULT_DATA: API_DATA = {
         RESULT_CODE: 0,
