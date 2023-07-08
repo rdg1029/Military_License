@@ -1,4 +1,4 @@
-const ArmyClassEventMap = [
+export const ArmyClassEventMap = [
   {
     classCode: "a1",
     className: "보병",
@@ -101,7 +101,7 @@ const ArmyClassEventMap = [
   },
 ];
 
-const NavyClassEventMap = [
+export const NavyClassEventMap = [
   {
     classCode: "n1",
     clssName: "함정",
@@ -174,7 +174,7 @@ const NavyClassEventMap = [
   },
 ]
 
-const AirForceClassEventMap = [
+export const AirForceClassEventMap = [
   {
     classCode: "af1",
     clssName: "조종",
