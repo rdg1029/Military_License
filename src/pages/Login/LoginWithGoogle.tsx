@@ -5,10 +5,16 @@ import { SignInGoogle, initFirebase } from "@/utils/FirebaseUtil";
 
 const LoginWithGoogle = () => {
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     //firebase 관련 함수를 사용하기 전에 init이 필요함.
     initFirebase();
-    SignInGoogle();
+    const userCredential = await SignInGoogle();
+    const metaData = userCredential.user.metadata;
+
+    if (metaData.creationTime !== metaData.lastSignInTime) {
+      window.location.replace("/");
+      return;
+    }
   };
 
   return (
