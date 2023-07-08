@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth"
+import { initFirebase } from "@/utils/FirebaseUtil";
 
 const UserInfoEditor = () => {
   const [name, setName] = useState("");
@@ -14,22 +16,39 @@ const UserInfoEditor = () => {
   const onMilTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setMilType(e.currentTarget.value);
   const onCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => setComment(e.currentTarget.value);
 
+  const onCancelClick = (e: React.MouseEvent) => {
+    if (window.confirm("취소하시겠습니까?")) {
+      window.location.replace("/");
+    }
+  }
+  const onSubmitClick = (e: React.MouseEvent) => {
+    if (window.confirm("저장하시겠습니까?")) {
+    }
+  }
+
+  useEffect(() => {
+    initFirebase();
+    onAuthStateChanged(getAuth(), (user) => {
+      console.log(user);
+    })
+  }, []);
+
   return (
     <div className="flex flex-col w-full pt-10 pr-5 pl-5">
       <h1 className="text-3xl text-df-orange font-bold">회원정보 입력</h1>
       
       <p className="text-df-orange pt-4">이름</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm" type="text" placeholder="이름 입력" onChange={onNameChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="이름 입력" onChange={onNameChange}></input>
       </div>
 
       <p className="text-df-orange pt-4">휴대폰 번호</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm" type="text" placeholder="번호 입력 (- 제외)" pattern="\d*" maxLength={11} onChange={onPhoneChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="번호 입력 ( - 제외)" pattern="\d*" maxLength={11} onChange={onPhoneChange}></input>
       </div>
 
       <p className="text-df-orange pt-4">계급 선택</p>
-      <select className="text-sm bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilRankChange}>
+      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilRankChange}>
         <option>계급 선택</option>
         <option>이등병</option>
         <option>일병</option>
@@ -43,7 +62,7 @@ const UserInfoEditor = () => {
       </select>
 
       <p className="text-df-orange pt-4">군종 선택</p>
-      <select className="text-sm bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilTypeChange}>
+      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilTypeChange}>
         <option>군종 선택</option>
         <option>육군</option>
         <option>해군</option>
@@ -53,7 +72,7 @@ const UserInfoEditor = () => {
       {milType === "군종 선택" ? <></> :
       <>
         <p className="text-df-orange pt-4">부대 선택</p>
-        <select className="text-sm bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2">
+        <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2">
         <option>부대 선택</option>
         </select>
       </>
@@ -61,9 +80,13 @@ const UserInfoEditor = () => {
 
       <p className="text-df-orange pt-4">한줄 소개</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm" type="text" placeholder="한줄 소개 입력" onChange={onCommentChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="한줄 소개 입력" onChange={onCommentChange}></input>
       </div>
 
+      <div className="flex flex-row w-full justify-center mt-4">
+        <button className="text-df-green text-xl border rounded-2xl border-df-orange pt-2 pr-4 pb-2 pl-4 mr-4" onClick={onCancelClick}>취소</button>
+        <button className="text-white text-xl border rounded-2xl bg-df-orange pt-2 pr-4 pb-2 pl-4 ml-4" onClick={onSubmitClick}>저장</button>
+      </div>
     </div>
   );
 }
