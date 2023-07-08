@@ -2,7 +2,16 @@ import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, que
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
 import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth"
 
-import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_BRANCH_DATA, RANK_UNIT_DATA, RANK_USER_DATA, USER_DATA } from "@/utils/DataClass"
+import {
+    API_DATA,
+    BOOK_DATA,
+    LICENSE_LIST_COUNT_DATA,
+    LICENSE_LIST_DATA,
+    RANK_BRANCH_DATA,
+    RANK_UNIT_DATA,
+    RANK_USER_DATA,
+    USER_DATA
+} from "@/utils/DataClass"
 import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
 
 import dotenv from "dotenv";
@@ -186,6 +195,63 @@ export const getLicenseListByCount = async () => {
         RESULT_CODE: 0,
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
+    }
+
+    const fbCountDocument = await getDocs(collection(firebaseDB, "Acquirer"));
+    const fbListDocument = await getDocs(collection(firebaseDB, "License"));
+    if (fbCountDocument.empty || fbListDocument.empty) {
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = "No Such Database";
+        return RESULT_DATA;
+    }
+
+    try {
+        let listLicense: Array<LICENSE_LIST_COUNT_DATA> = [];
+
+        fbListDocument.forEach((curDoc) => {
+            let tmpData = {
+                count: 0,
+                licenseCode: curDoc.id,
+                strGualgbcd: curDoc.get("strGualgbcd"),
+                strGualgbnm: curDoc.get("strGualgbnm"),
+                strJmfldnm: curDoc.get("strJmfldnm"),
+                strMdobligfldcd: curDoc.get("strMdobligfldcd"),
+                strMdobligfldnm: curDoc.get("strMdobligfldnm"),
+                strObligfldcd: curDoc.get("strObligfldcd"),
+                strObligfldnm: curDoc.get("strObligfldnm"),
+                strSeriescd: curDoc.get("strSeriescd"),
+                strSeriesnm: curDoc.get("strSeriesnm")
+            }
+            listLicense.push(tmpData);
+        });
+
+        fbCountDocument.forEach((curDoc) => {
+            let licenseCode = curDoc.get("license_code");
+
+            listLicense.forEach((curLicense) => {
+                if(curLicense.licenseCode == licenseCode){
+                    curLicense.count++;
+                }
+            });
+        })
+
+        listLicense.sort((unitA, unitB) => {
+            if (unitA.count == unitB.count) {
+                if (unitA.licenseCode > unitB.licenseCode) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            return unitB.count - unitA.count;
+        });
+
+        RESULT_DATA.RESULT_CODE = 200;
+        RESULT_DATA.RESULT_MSG = "Success";
+        RESULT_DATA.RESULT_DATA = { data: listLicense };
+    } catch (error) {
+        RESULT_DATA.RESULT_CODE = 100;
+        RESULT_DATA.RESULT_MSG = error as string;
     }
 
     return RESULT_DATA
