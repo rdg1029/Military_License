@@ -50,21 +50,28 @@ const LicenseList = () => {
     }
   }, [selectClassCode]);
 
-  return (
-    <ListPage
-      title="국가 기술 자격증 추천"
-      tabs={[
-        { name: "전체 자격증", component: <ListAll list={listAll} /> },
-        {
-          name: "병과별 추천",
-          component: (
-            <ListByClass list={listByClass} setSelectClassCode={setSelectClassCode} />
-          ),
-        },
-        { name: "분야별 추천", component: <ListByType /> },
-        { name: "전체 취득순", component: <ListInOrder /> },
-      ]}
-    />
+  return isLoaded ? (
+    <>
+      <ListPage
+        title="국가 기술 자격증 추천"
+        tabs={[
+          { name: "전체 자격증", component: <ListAll list={listAll} /> },
+          {
+            name: "병과별 추천",
+            component: (
+              <ListByClass
+                list={listByClass}
+                setSelectClassCode={setSelectClassCode}
+              />
+            ),
+          },
+          { name: "분야별 추천", component: <ListByType /> },
+          { name: "전체 취득순", component: <ListInOrder /> },
+        ]}
+      />
+    </>
+  ) : (
+    <div>로딩중...</div>
   );
 };
 
