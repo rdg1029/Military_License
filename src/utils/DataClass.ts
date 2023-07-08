@@ -42,8 +42,6 @@ export interface LICENSE_LIST_DATA{
 
 export interface LICENSE_LIST_COUNT_DATA{
     count: number,
-    content: string,
-    schedule: Array<string>,
     strGualgbcd: string,
     strGualgbnm: string,
     strJmfldnm: string,
