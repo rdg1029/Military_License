@@ -1,6 +1,6 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where, setDoc } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth"
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence, UserCredential } from "@firebase/auth"
 
 import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_BRANCH_DATA, RANK_UNIT_DATA, RANK_USER_DATA, USER_DATA } from "@/utils/DataClass"
 import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
@@ -434,13 +434,18 @@ const setFirebaseDB = async (collectionID: string, documentID: string, userData:
 export const SignInGoogle = async () => {
     const provider = new GoogleAuthProvider();
 
-    await signInWithPopup(firebaseAuth, provider)
-    .then(async (result) => {
-        userToken = await result.user.getIdToken();
-        console.log(userToken);
-    })
-    .catch((error) => {
-        console.log(`Error: ${error}`);
-    })
+    return new Promise<UserCredential>((resolve, reject) => {
+        setPersistence(firebaseAuth, browserLocalPersistence)
+        .then(() => {
+            signInWithPopup(firebaseAuth, provider)
+            .then(userCredential => {
+                resolve(userCredential);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+                reject(error);
+            });
+        });
+    });
 
 }
