@@ -435,7 +435,6 @@ export const SignInGoogle = async () => {
     await signInWithPopup(firebaseAuth, provider)
     .then(async (result) => {
         let userToken = await result.user.getIdToken();
-        console.log(`userToekn : ${userToken}`);
     })
     .catch((error) => {
         console.log(`Error: ${error}`);
