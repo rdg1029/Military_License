@@ -2,7 +2,7 @@ export const ClassEventMap = [
   {
     classCode: "a1",
     className: "보병",
-    eventArr: ["02", "12", "14", "16", "20", "25", "26"]
+    eventArr: ["02", "04", "06", "07", "08", "09", "10", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"]
   },
   {
     classCode: "a2",
@@ -42,7 +42,7 @@ export const ClassEventMap = [
   {
     classCode: "a9",
     className: "공병",
-    eventArr: ["14", "15", "16", "17","20", "21", "25"]
+    eventArr: ["14", "15", "16", "17", "20", "21", "25"]
   },
   {
     classCode: "a10",
