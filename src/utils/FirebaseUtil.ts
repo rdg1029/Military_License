@@ -432,6 +432,10 @@ export const getRankByUnit = async () => {
     return RESULT_DATA
 }
 
+export const getUnitList = async (type: string) => {
+    return getFirebaseDB("Unit", type);
+}
+
 export const getUserData = async (uid: string) => {
     return getFirebaseDB("User", uid);
 }
