@@ -1,5 +1,6 @@
-import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where, setDoc} from "@firebase/firestore";
+import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where, setDoc } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth"
 
 import { API_DATA, BOOK_DATA, LICENSE_LIST_DATA, RANK_BRANCH_DATA, RANK_UNIT_DATA, RANK_USER_DATA, USER_DATA } from "@/utils/DataClass"
 import { initFirebaseAuth, verifyToken } from "@/utils/AuthUtil";
@@ -15,11 +16,13 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 let firebaseApp: FirebaseApp;
+let firebaseAuth: Auth;
 let firebaseDB: Firestore;
 
 export const initFirebase = () => {
-    if(firebaseApp === undefined || firebaseDB === undefined){
+    if (firebaseApp === undefined || firebaseAuth === undefined || firebaseDB === undefined) {
         firebaseApp = initializeApp(firebaseConfig);
+        firebaseAuth = getAuth(firebaseApp);
         firebaseDB = getFirestore(firebaseApp);
     }
 };
@@ -30,7 +33,7 @@ export const getLicenseDetail = async (code: string) => {
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
     }
-    
+
     let resultData = {
         content: "",
         schedule: [],
@@ -46,13 +49,13 @@ export const getLicenseDetail = async (code: string) => {
     }
 
     let fbDocument = await getDoc(doc(firebaseDB, "License", code));
-    if(!fbDocument.exists()){
+    if (!fbDocument.exists()) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
-    
-    try{
+
+    try {
         resultData.strGualgbcd = fbDocument.get("strGualgbcd");
         resultData.strGualgbnm = fbDocument.get("strGualgbnm");
         resultData.strJmfldnm = fbDocument.get("strJmfldnm");
@@ -62,24 +65,24 @@ export const getLicenseDetail = async (code: string) => {
         resultData.strObligfldnm = fbDocument.get("strObligfldnm");
         resultData.strSeriescd = fbDocument.get("strSeriescd");
         resultData.strSeriesnm = fbDocument.get("strSeriesnm");
-    }catch(error){
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
         return RESULT_DATA;
     }
 
     fbDocument = await getDoc(doc(firebaseDB, "LicenseContent", code));
-    if(!fbDocument.exists()){
+    if (!fbDocument.exists()) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         resultData.content = fbDocument.get("content");
         resultData.schedule = fbDocument.get("schedule");
         RESULT_DATA.RESULT_DATA = resultData;
-    }catch(error){
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
         return RESULT_DATA;
@@ -96,13 +99,13 @@ export const getLicenseListAll = async () => {
     }
 
     const fbDocument = await getDocs(collection(firebaseDB, "License"));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let listLicense: Array<LICENSE_LIST_DATA> = [];
 
         fbDocument.forEach((curDoc) => {
@@ -122,8 +125,8 @@ export const getLicenseListAll = async () => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listLicense};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listLicense };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -139,17 +142,17 @@ export const getLicenseListByCode = async (code: string) => {
     }
 
     const fbDocument = await getDocs(collection(firebaseDB, "License"));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let listLicense: Array<LICENSE_LIST_DATA> = [];
 
         fbDocument.forEach((curDoc) => {
-            if(curDoc.get("strObligfldcd") == code){
+            if (curDoc.get("strObligfldcd") == code) {
                 let tmpData = {
                     strGualgbcd: curDoc.get("strGualgbcd"),
                     strGualgbnm: curDoc.get("strGualgbnm"),
@@ -167,8 +170,8 @@ export const getLicenseListByCode = async (code: string) => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listLicense};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listLicense };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -184,18 +187,18 @@ export const getMilLibraryBookList = async (keyword: string) => {
     }
 
     const fbDocument = await getDocs(collection(firebaseDB, "Book"));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let cntData = 0;
         let listBook: Array<BOOK_DATA> = [];
 
         fbDocument.forEach((curDoc) => {
-            if(curDoc.get("marc_title").indexOf(keyword) > 0) {
+            if (curDoc.get("marc_title").indexOf(keyword) > 0) {
                 cntData++;
                 listBook.push({
                     author: curDoc.get("marc_author"),
@@ -207,8 +210,8 @@ export const getMilLibraryBookList = async (keyword: string) => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listBook};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listBook };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -224,13 +227,13 @@ export const getRankFromUnit = async (unit: string) => {
     }
 
     const fbDocument = await getDocs(query(collection(firebaseDB, "User"), where("unit", "==", unit), orderBy("mp", "desc")));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let listUser: Array<RANK_USER_DATA> = [];
 
         fbDocument.forEach((curDoc) => {
@@ -242,8 +245,8 @@ export const getRankFromUnit = async (unit: string) => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listUser};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listUser };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -259,18 +262,18 @@ export const getRankByBranch = async () => {
     }
 
     const fbDocument = await getDocs(collection(firebaseDB, "Unit"));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let listBranch: Array<RANK_BRANCH_DATA> = []
 
         let idx = 0;
         fbDocument.forEach((curDoc) => {
-            listBranch.push({name: curDoc.id.toString(), mp: 0});
+            listBranch.push({ name: curDoc.id.toString(), mp: 0 });
 
             let tmpList = curDoc.get("list");
             tmpList.forEach((curUnit: RANK_BRANCH_DATA) => {
@@ -280,10 +283,10 @@ export const getRankByBranch = async () => {
         });
 
         listBranch.sort((unitA, unitB) => {
-            if(unitA.mp == unitB.mp){
-                if(unitA.name > unitB.name){
+            if (unitA.mp == unitB.mp) {
+                if (unitA.name > unitB.name) {
                     return 1;
-                }else{
+                } else {
                     return -1;
                 }
             }
@@ -292,8 +295,8 @@ export const getRankByBranch = async () => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listBranch};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listBranch };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -307,15 +310,15 @@ export const getRankByUnit = async () => {
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
     }
-    
+
     const fbDocument = await getDocs(collection(firebaseDB, "Unit"));
-    if(fbDocument.empty){
+    if (fbDocument.empty) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         let listUnit: Array<RANK_UNIT_DATA> = []
 
         fbDocument.forEach((curDoc) => {
@@ -329,10 +332,10 @@ export const getRankByUnit = async () => {
         });
 
         listUnit.sort((unitA, unitB) => {
-            if(unitA.mp == unitB.mp){
-                if(unitA.name > unitB.name){
+            if (unitA.mp == unitB.mp) {
+                if (unitA.name > unitB.name) {
                     return 1;
-                }else{
+                } else {
                     return -1;
                 }
             }
@@ -341,8 +344,8 @@ export const getRankByUnit = async () => {
 
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
-        RESULT_DATA.RESULT_DATA = {data: listUnit};
-    }catch(error){
+        RESULT_DATA.RESULT_DATA = { data: listUnit };
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -366,10 +369,10 @@ export const verifyUser = async (token: string) => {
         RESULT_MSG: "Ready",
         RESULT_DATA: {}
     }
-    
+
     initFirebaseAuth();
     let uid = verifyToken(token);
-    if(uid == -1){
+    if (uid == -1) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such User";
         return RESULT_DATA;
@@ -386,17 +389,17 @@ const getFirebaseDB = async (collectionID: string, documentID: string) => {
     }
 
     const fbDocument = await getDoc(doc(firebaseDB, collectionID, documentID));
-    if(!fbDocument.exists()){
+    if (!fbDocument.exists()) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = "No Such Database";
         return RESULT_DATA;
     }
 
-    try{
+    try {
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
         RESULT_DATA.RESULT_DATA = fbDocument.data();
-    }catch(error){
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
@@ -413,15 +416,29 @@ const setFirebaseDB = async (collectionID: string, documentID: string, userData:
 
     const fbDocument = doc(firebaseDB, collectionID, documentID);
 
-    try{
+    try {
         RESULT_DATA.RESULT_CODE = 200;
         RESULT_DATA.RESULT_MSG = "Success";
 
         await setDoc(fbDocument, userData);
-    }catch(error){
+    } catch (error) {
         RESULT_DATA.RESULT_CODE = 100;
         RESULT_DATA.RESULT_MSG = error as string;
     }
 
     return RESULT_DATA;
 };
+
+export const SignInGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+
+    await signInWithPopup(firebaseAuth, provider)
+    .then(async (result) => {
+        let userToken = await result.user.getIdToken();
+        console.log(`userToekn : ${userToken}`);
+    })
+    .catch((error) => {
+        console.log(`Error: ${error}`);
+    })
+
+}
