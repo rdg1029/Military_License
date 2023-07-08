@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth"
 import { initFirebase } from "@/utils/FirebaseUtil";
+import axios from "axios";
+
+interface UnitInfo {
+  mp: number;
+  name: string;
+}
 
 const UserInfoEditor = () => {
+  const req = axios.create();
+  const [userInfo, setUserInfo] = useState<User | null>()
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [milRank, setMilRank] = useState("계급 선택");
@@ -10,10 +19,15 @@ const UserInfoEditor = () => {
   const [unit, setUnit] = useState("부대 선택");
   const [comment, setComment] = useState("");
 
+  const [armyUnits, setArmyUnits] = useState<UnitInfo[]>([]);
+  const [navyUnits, setNavyUnits] = useState<UnitInfo[]>([]);
+  const [airforceUnits, setAirfoeceUnits] = useState<UnitInfo[]>([]);
+
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setName(e.currentTarget.value);
   const onPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.currentTarget.value);
   const onMilRankChange = (e: React.ChangeEvent<HTMLSelectElement>) => setMilRank(e.currentTarget.value);
   const onMilTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setMilType(e.currentTarget.value);
+  const onUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => setUnit(e.currentTarget.value);
   const onCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => setComment(e.currentTarget.value);
 
   const onCancelClick = (e: React.MouseEvent) => {
@@ -23,14 +37,25 @@ const UserInfoEditor = () => {
   }
   const onSubmitClick = (e: React.MouseEvent) => {
     if (window.confirm("저장하시겠습니까?")) {
+      req.post(`/api/profile/registerUser/${userInfo?.uid}`, {
+        "comment": comment,
+        "email": userInfo?.email,
+        "military_rank": milRank,
+        "military_type": milType,
+        "name": name,
+        "phone": phone,
+        "unit": unit
+      });
     }
   }
 
   useEffect(() => {
+    req.get("/api/unit/getUnitList/army").then(res => setArmyUnits(res.data.RESULT_DATA.list)).catch(err => console.log(err));
+    req.get("/api/unit/getUnitList/navy").then(res => setNavyUnits(res.data.RESULT_DATA.list)).catch(err => console.log(err));
+    req.get("/api/unit/getUnitList/airforce").then(res => setAirfoeceUnits(res.data.RESULT_DATA.list)).catch(err => console.log(err));
+
     initFirebase();
-    onAuthStateChanged(getAuth(), (user) => {
-      console.log(user);
-    })
+    onAuthStateChanged(getAuth(), user => setUserInfo(user));
   }, []);
 
   return (
@@ -39,16 +64,16 @@ const UserInfoEditor = () => {
       
       <p className="text-df-orange pt-4">이름</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="이름 입력" onChange={onNameChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="이름 입력" value={name} onChange={onNameChange}></input>
       </div>
 
       <p className="text-df-orange pt-4">휴대폰 번호</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="번호 입력 ( - 제외)" pattern="\d*" maxLength={11} onChange={onPhoneChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="번호 입력 ( - 제외)" pattern="\d*" value={phone} maxLength={11} onChange={onPhoneChange}></input>
       </div>
 
       <p className="text-df-orange pt-4">계급 선택</p>
-      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilRankChange}>
+      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" value={milRank} onChange={onMilRankChange}>
         <option>계급 선택</option>
         <option>이등병</option>
         <option>일병</option>
@@ -62,7 +87,7 @@ const UserInfoEditor = () => {
       </select>
 
       <p className="text-df-orange pt-4">군종 선택</p>
-      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" onChange={onMilTypeChange}>
+      <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" value={milType} onChange={onMilTypeChange}>
         <option>군종 선택</option>
         <option>육군</option>
         <option>해군</option>
@@ -72,15 +97,17 @@ const UserInfoEditor = () => {
       {milType === "군종 선택" ? <></> :
       <>
         <p className="text-df-orange pt-4">부대 선택</p>
-        <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2">
-        <option>부대 선택</option>
+        <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" value={unit} onChange={onUnitChange}>
+        {milType === "육군" && armyUnits.map(unit => <option>{unit.name}</option>)}
+        {milType === "해군" && navyUnits.map(unit => <option>{unit.name}</option>)}
+        {milType === "공군" && airforceUnits.map(unit => <option>{unit.name}</option>)}
         </select>
       </>
       }
 
       <p className="text-df-orange pt-4">한줄 소개</p>
       <div className="flex bg-orange-100 rounded-lg drop-shadow mt-1 mb-2.5 pt-1 pr-2 pb-1 pl-2">
-        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="한줄 소개 입력" onChange={onCommentChange}></input>
+        <input className="grow bg-transparent text-sm text-df-green" type="text" placeholder="한줄 소개 입력" value={comment} onChange={onCommentChange}></input>
       </div>
 
       <div className="flex flex-row w-full justify-center mt-4">
