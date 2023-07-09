@@ -1,7 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import ListPage from "../ListPage";
-import ListAll from "./RankListAll";
 import ListANA from "./RankListANA";
 import ListUnit from "./RankListUnit";
 import {

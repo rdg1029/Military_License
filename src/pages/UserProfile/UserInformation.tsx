@@ -7,7 +7,8 @@ interface Props {
   props: USER_DATA;
 }
 const UserInformation = ({ props }: Props) => {
-  return (
+  if (props !== undefined){
+    return (
     <div className="-mt-10">
       {/*프로필 이미지 */}
       <div className="flex justify-center items-center w-36 h-36 bg-df-green rounded-full relative top-14 -left-1 z-10">
@@ -65,6 +66,10 @@ const UserInformation = ({ props }: Props) => {
       </div>
     </div>
   );
+  }else{
+    return (<></>);
+  }
+  
 };
 
 export default UserInformation;
