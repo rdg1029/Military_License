@@ -34,27 +34,12 @@ const NavBar = () => {
           <p className="text-df-orange font-bold">랭킹</p>
         </div>
       </Link>
-
-      {isLogin ? (
-        <Link href="/UserProfile">
-          <div className="flex flex-col justify-center items-center cursor-pointer">
-            <FontAwesomeIcon icon={faUser} size="1x" color="#E86A33" />
-
-            <p className="text-df-orange font-bold">프로필</p>
-          </div>
-        </Link>
-      ) : (
-        <Link href="/Login">
-          <div className="flex flex-col justify-center items-center cursor-pointer">
-            <FontAwesomeIcon
-              icon={faRightToBracket}
-              size="1x"
-              color="#E86A33"
-            />
-            <p className="text-df-orange font-bold">로그인</p>
-          </div>
-        </Link>
-      )}
+      <Link href="/UserProfile">
+        <div className="flex flex-col justify-center items-center cursor-pointer">
+          <FontAwesomeIcon icon={faUser} size="1x" color="#E86A33" />
+          <p className="text-df-orange font-bold">프로필</p>
+        </div>
+      </Link>
     </div>
   );
 };

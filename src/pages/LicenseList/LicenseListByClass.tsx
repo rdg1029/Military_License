@@ -42,7 +42,7 @@ const LicenseListByClass = ({list , setSelectClassCode} : Props) => {
           {ClassEventMap.map((className, index) => <option key={index} value={className.classCode}>{className.className}</option>)}
         </select>
       </div>
-      <Search />
+      {/* <Search /> */}
       <div className="grow flex flex-col w-full overflow-y-scroll">
         <ListTable
           tableHead={["자격증", "증분류", "구분"]}
