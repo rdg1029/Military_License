@@ -3,6 +3,7 @@ import ListTable from "../ListTable";
 import { useState, useEffect, ChangeEvent } from "react";
 import { ClassEventMap } from "@/utils/ClassEventMap";
 import { LICENSE_LIST_DATA } from "@/utils/DataClass";
+import Link from "next/link";
 
 interface Props {
   list: Array<LICENSE_LIST_DATA>;
@@ -16,7 +17,7 @@ const LicenseListByClass = ({list , setSelectClassCode} : Props) => {
 
   useEffect(() => {
     setListData(list.map((data, i) => [
-      <p key={i} className="text-xs text-df-green">{data.strJmfldnm}</p>,
+      <Link key={i} href={`/LicenseInfo/${data.licenseCode}`}><p key={i} className="text-xs text-df-green underline">{data.strJmfldnm}</p></Link>,
       <p key={i} className="text-xs text-df-green">{data.strMdobligfldnm}</p>,
       <p key={i} className="text-xs text-df-green">{data.strSeriesnm}</p>
     ]));

@@ -1,25 +1,28 @@
 import Search from "./LicenseSearch";
 import ListTable from "../ListTable";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { LICENSE_LIST_DATA } from "@/utils/DataClass";
 import { JmMap } from "@/utils/LicenseJmMap";
 
 interface Props {
   list: Array<LICENSE_LIST_DATA>;
-  setSelectJmCode : any;
+  setSelectJmCode: any;
 }
 
 const LicenseListByType = ({ list, setSelectJmCode }: Props) => {
   const [isLoaded, setLoaded] = useState<Boolean>(false);
   const [type, setType] = useState("종목 선택");
   const [listData, setListData] = useState<React.ReactNode[][]>([]);
-  
+
   useEffect(() => {
     setListData(
       list.map((data, i) => [
-        <p key={i} className="text-xs text-df-green">
-          {data.strJmfldnm}
-        </p>,
+        <Link key={i} href={`/LicenseInfo/${data.licenseCode}`}>
+          <p key={i} className="text-xs text-df-green underline">
+            {data.strJmfldnm}
+          </p>
+        </Link>,
         <p key={i} className="text-xs text-df-green">
           {data.strMdobligfldnm}
         </p>,
@@ -31,13 +34,13 @@ const LicenseListByType = ({ list, setSelectJmCode }: Props) => {
     setLoaded(true);
   }, [list]);
 
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>{
-    let found = JmMap.find(item => item.JmCode === e.target.value);
-    if(found != undefined) {
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let found = JmMap.find((item) => item.JmCode === e.target.value);
+    if (found != undefined) {
       setType(found.JmName);
       setSelectJmCode(e.target.value);
     }
-  }
+  };
 
   return (
     <>
