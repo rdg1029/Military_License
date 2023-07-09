@@ -14,7 +14,7 @@ const NavBar = () => {
 
   return (
     <div className="flex flex-row justify-evenly items-center w-full h-16 bg-df-orange-opacity fixed bottom-0">
-      <Link href="/Main">
+      <Link href="/">
         <div className="flex flex-col justify-center items-center cursor-pointer">
           <FontAwesomeIcon icon={faHouse} size="1x" color="#E86A33" />
           <p className="text-df-orange font-bold">메인</p>
