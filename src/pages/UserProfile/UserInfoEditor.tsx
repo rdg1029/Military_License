@@ -98,9 +98,9 @@ const UserInfoEditor = () => {
       <>
         <p className="text-df-orange pt-4">부대 선택</p>
         <select className="text-sm text-df-green bg-orange-100 rounded-lg pt-1 pr-2 pb-1 pl-2" value={unit} onChange={onUnitChange}>
-        {milType === "육군" && armyUnits.map(unit => <option>{unit.name}</option>)}
-        {milType === "해군" && navyUnits.map(unit => <option>{unit.name}</option>)}
-        {milType === "공군" && airforceUnits.map(unit => <option>{unit.name}</option>)}
+        {milType === "육군" && armyUnits.map((unit, i) => <option key={i}>{unit.name}</option>)}
+        {milType === "해군" && navyUnits.map((unit, i) => <option key={i}>{unit.name}</option>)}
+        {milType === "공군" && airforceUnits.map((unit, i) => <option key={i}>{unit.name}</option>)}
         </select>
       </>
       }

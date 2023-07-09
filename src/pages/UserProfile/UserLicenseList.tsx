@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListTable from "../ListTable";
+import { USER_LICENSE_ITEM } from "@/utils/DataClass";
 
 {
   /* <ListTable 
@@ -12,18 +13,38 @@ import ListTable from "../ListTable";
   ]} /> */
 }
 
-const UserLicenseList = () => {
+interface Props {
+  list: Array<USER_LICENSE_ITEM>;
+}
+
+const UserLicenseList = ({ list }: Props) => {
+  const [userLicenseList, setUserLicenseList] = useState<React.ReactNode[][]>(
+    []
+  );
+
+  useEffect(() => {
+    let tmpArray: React.ReactNode[][] = [];
+
+    for (let i = 0; i < list.length; i++) {
+      tmpArray.push([
+        <p key={i} className="text-xl text-df-green">
+          {list[i].name}
+        </p>,
+        <p key={i} className="text-xl text-df-green">
+          {list[i].date}
+        </p>,
+      ]);
+    }
+    setUserLicenseList(tmpArray);
+  }, [list]);
+
   return (
     <>
       <div className="flex justify-center items-center w-85 h-full bg-df-orange-opacity drop-shadow-md rounded-2xl">
         <div className="w-80 m-5">
           <ListTable
             tableHead={["자격증", "취득일"]}
-            tableData={[
-              ["정보처리산업기사", "2023.04.27"],
-              ["굴착기운전기능사", "2023.04.12"],
-              ["집에가는기능사", "2019.12.12"],
-            ]}
+            tableData={userLicenseList}
           />
         </div>
       </div>

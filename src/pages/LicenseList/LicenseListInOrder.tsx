@@ -31,7 +31,7 @@ const LicenseListInOrder = ({ list }: Props) => {
 
   return (
     <>
-      <Search />
+      {/* <Search /> */}
       <div className="grow flex flex-col w-full overflow-y-scroll">
         <ListTable
           tableHead={["자격증", "종목", "구분"]}

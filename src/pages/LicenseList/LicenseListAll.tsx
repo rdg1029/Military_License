@@ -24,7 +24,7 @@ const LicenseListAll = (props: Props) => {
 
   return (isLoaded ?
     <>
-      <Search />
+      {/* <Search /> */}
       <div className="grow flex flex-col w-full overflow-y-scroll">
         <ListTable
           tableHead={["자격증", "증분류", "구분"]}
