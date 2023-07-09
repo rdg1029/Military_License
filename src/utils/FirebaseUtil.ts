@@ -1,6 +1,6 @@
 import { collection, doc, Firestore, getDoc, getDocs, getFirestore, orderBy, query, where, setDoc } from "@firebase/firestore";
 import { FirebaseApp, FirebaseOptions, initializeApp } from "@firebase/app";
-import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth"
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence, UserCredential } from "@firebase/auth"
 
 import {
     API_DATA,
@@ -121,6 +121,7 @@ export const getLicenseListAll = async () => {
 
         fbDocument.forEach((curDoc) => {
             let tmpData = {
+                licenseCode: curDoc.id,
                 strGualgbcd: curDoc.get("strGualgbcd"),
                 strGualgbnm: curDoc.get("strGualgbnm"),
                 strJmfldnm: curDoc.get("strJmfldnm"),
@@ -165,6 +166,7 @@ export const getLicenseListByCode = async (code: string) => {
         fbDocument.forEach((curDoc) => {
             if (curDoc.get("strObligfldcd") == code) {
                 let tmpData = {
+                    licenseCode: curDoc.id,
                     strGualgbcd: curDoc.get("strGualgbcd"),
                     strGualgbnm: curDoc.get("strGualgbnm"),
                     strJmfldnm: curDoc.get("strJmfldnm"),
@@ -432,6 +434,10 @@ export const getRankByUnit = async () => {
     return RESULT_DATA
 }
 
+export const getUnitList = async (type: string) => {
+    return getFirebaseDB("Unit", type);
+}
+
 export const getUserData = async (uid: string) => {
     return getFirebaseDB("User", uid);
 }
@@ -511,13 +517,18 @@ const setFirebaseDB = async (collectionID: string, documentID: string, userData:
 export const SignInGoogle = async () => {
     const provider = new GoogleAuthProvider();
 
-    await signInWithPopup(firebaseAuth, provider)
-    .then(async (result) => {
-        userToken = await result.user.getIdToken();
-        console.log(userToken);
-    })
-    .catch((error) => {
-        console.log(`Error: ${error}`);
-    })
+    return new Promise<UserCredential>((resolve, reject) => {
+        setPersistence(firebaseAuth, browserLocalPersistence)
+        .then(() => {
+            signInWithPopup(firebaseAuth, provider)
+            .then(userCredential => {
+                resolve(userCredential);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+                reject(error);
+            });
+        });
+    });
 
 }

@@ -5,7 +5,8 @@ export interface API_DATA{
 }
 
 export interface LIST_DATA{
-    data: Array<BOOK_DATA | LICENSE_LIST_DATA | LICENSE_LIST_COUNT_DATA | RANK_BRANCH_DATA | RANK_UNIT_DATA | RANK_USER_DATA>
+    data: Array<BOOK_DATA | LICENSE_LIST_DATA | LICENSE_LIST_COUNT_DATA
+        | RANK_BRANCH_DATA | RANK_UNIT_DATA | RANK_USER_DATA>
 }
 
 export interface BOOK_DATA{
@@ -16,6 +17,7 @@ export interface BOOK_DATA{
 
 export interface LICENSE_DATA{
     content: string,
+    licenseCode: string,
     schedule: Array<string>,
     strGualgbcd: string,
     strGualgbnm: string,
@@ -29,6 +31,7 @@ export interface LICENSE_DATA{
 }
 
 export interface LICENSE_LIST_DATA{
+    licenseCode: string,
     strGualgbcd: string,
     strGualgbnm: string,
     strJmfldnm: string,
