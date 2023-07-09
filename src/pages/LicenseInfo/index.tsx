@@ -1,1 +1,1 @@
-export { default } from "./LicenseInfo";
+export { default } from "./[licenseCode]";

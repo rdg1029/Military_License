@@ -1,34 +1,73 @@
-import Search from "./LicenseSearch"
+import Search from "./LicenseSearch";
 import ListTable from "../ListTable";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { LICENSE_LIST_DATA } from "@/utils/DataClass";
+import { JmMap } from "@/utils/LicenseJmMap";
 
-const LicenseListByType = () => {
-  const dummyArray: React.ReactNode[][] = [];
-  for (let i = 0; i < 25; i++) {
-    dummyArray.push([<p key={i} className="text-xs text-lime-800">굴삭기운전기능사</p>, <p key={i} className="text-xs text-lime-800">146. 건설기계 운전</p>, <p key={i} className="text-xs text-lime-800">한국산업인력공단</p>])
-  }
+interface Props {
+  list: Array<LICENSE_LIST_DATA>;
+  setSelectJmCode: any;
+}
 
-  const [selectedType, setType] = useState("증분류 선택");
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => setType(e.currentTarget.value);
+const LicenseListByType = ({ list, setSelectJmCode }: Props) => {
+  const [isLoaded, setLoaded] = useState<Boolean>(false);
+  const [type, setType] = useState("종목 선택");
+  const [listData, setListData] = useState<React.ReactNode[][]>([]);
+
+  useEffect(() => {
+    setListData(
+      list.map((data, i) => [
+        <Link key={i} href={`/LicenseInfo/${data.licenseCode}`}>
+          <p key={i} className="text-xs text-df-green underline">
+            {data.strJmfldnm}
+          </p>
+        </Link>,
+        <p key={i} className="text-xs text-df-green">
+          {data.strMdobligfldnm}
+        </p>,
+        <p key={i} className="text-xs text-df-green">
+          {data.strSeriesnm}
+        </p>,
+      ])
+    );
+    setLoaded(true);
+  }, [list]);
+
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let found = JmMap.find((item) => item.JmCode === e.target.value);
+    if (found != undefined) {
+      setType(found.JmName);
+      setSelectJmCode(e.target.value);
+    }
+  };
 
   return (
     <>
       <div className="flex flex-row pt-3 pb-1">
-        <span className="text-lime-800 font-bold">증분류 : </span>
-        <span className="text-orange-600 pl-1 pr-2">{selectedType}</span>
-        <select className="text-xs bg-orange-100 rounded-lg" onChange={onSelectChange}>
+        <span className="text-df-green font-bold">종목 : </span>
+        <span className="text-df-orange pl-1 pr-2">{type}</span>
+        <select
+          className="text-xs bg-df-orange-opacity rounded-lg"
+          onChange={onSelectChange}
+        >
           <option>증분류 선택</option>
-          <option>146. 건설기계 운전</option>
+          {JmMap.map((JmName, index) => (
+            <option key={index} value={JmName.JmCode}>
+              {JmName.JmName}
+            </option>
+          ))}
         </select>
       </div>
       <Search />
       <div className="grow flex flex-col w-full overflow-y-scroll">
         <ListTable
-          tableHead={["자격증", "증분류", "시행처"]}
-          tableData={dummyArray} />
+          tableHead={["자격증", "종목", "구분"]}
+          tableData={listData}
+        />
       </div>
     </>
   );
-}
+};
 
 export default LicenseListByType;
