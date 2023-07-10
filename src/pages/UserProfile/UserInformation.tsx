@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPersonRifle } from "@fortawesome/free-solid-svg-icons";
 import { USER_DATA } from "@/utils/DataClass";
@@ -49,7 +49,7 @@ const UserInformation = ({ props }: Props) => {
                   취득 자격증 수
                 </p>
                 <p className="text-3xl font-extrabold text-df-green">
-                  {props.license_list.length}
+                  {props.license_list ? props.license_list.length : 0}
                 </p>
               </div>
             </div>
