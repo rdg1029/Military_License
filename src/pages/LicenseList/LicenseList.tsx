@@ -9,6 +9,7 @@ import { ClassEventMap } from "@/utils/ClassEventMap";
 import { LICENSE_LIST_COUNT_DATA, LICENSE_LIST_DATA } from "@/utils/DataClass";
 
 const LicenseList = () => {
+  const req = axios.create();
   const [isLoaded, setLoaded] = useState<Boolean>(false);
   const [listAll, setListAll] = useState<Array<LICENSE_LIST_DATA>>([]);
   const [selectClassCode, setSelectClassCode] = useState<string>();
@@ -20,29 +21,26 @@ const LicenseList = () => {
   );
 
   useEffect(() => {
-    const req = axios.create();
     req
       .get("/api/license/getListAll")
       .then((res) => {
         setListAll(res.data.RESULT_DATA.data);
         setLoaded(true);
-        console.log(res);
-        console.log("all items loaded");
+        // console.log(res);
+        // console.log("all items loaded");
       })
       .catch((err) => console.log(err));
 
-    const req1 = axios.create();
-    req1
+    req
       .get("/api/license/getListByCount")
       .then((res) => {
         setListByCount(res.data.RESULT_DATA.data);
-        console.log("count data loaded");
+        // console.log("count data loaded");
       })
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    const req = axios.create();
     let reqArray: Array<LICENSE_LIST_DATA> = [];
     let targetArray = ClassEventMap.find(
       (item) => item.classCode === selectClassCode
@@ -57,7 +55,7 @@ const LicenseList = () => {
               reqArray.push(res.data.RESULT_DATA.data[j]);
             }
             setListByClass(reqArray);
-            console.log("all items of listByClass loaded");
+            // console.log("all items of listByClass loaded");
           })
           .catch((err) => console.log(err));
       }
@@ -65,12 +63,10 @@ const LicenseList = () => {
   }, [selectClassCode]);
 
   useEffect(() => {
-    const req = axios.create();
-
     req
       .get(`/api/license/getListByCode/${selectJmCode}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setListByType(res.data.RESULT_DATA.data);
       })
       .catch((err) => console.log(err));

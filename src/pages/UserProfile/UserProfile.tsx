@@ -24,6 +24,10 @@ const UserProfile = () => {
     const req = axios.create();
     initFirebase();
     onAuthStateChanged(getAuth(), user => {
+      if (!user) {
+        window.location.replace("/Login");
+        return;
+      }
       req
         .get(`/api/profile/getUserData/${user?.uid}`)
         .then((res) => {

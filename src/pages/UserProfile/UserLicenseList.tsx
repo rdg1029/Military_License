@@ -23,6 +23,7 @@ const UserLicenseList = ({ list }: Props) => {
   );
 
   useEffect(() => {
+    if (list === undefined) return;
     let tmpArray: React.ReactNode[][] = [];
 
     for (let i = 0; i < list.length; i++) {
@@ -37,7 +38,6 @@ const UserLicenseList = ({ list }: Props) => {
     }
     setUserLicenseList(tmpArray);
   }, [list]);
-
   return (
     <>
       <div className="flex justify-center items-center w-85 h-full bg-df-orange-opacity drop-shadow-md rounded-2xl">

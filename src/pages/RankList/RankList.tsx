@@ -25,8 +25,8 @@ const RankList = () => {
       .get("/api/ranking/getRankByBranch")
       .then((res) => {
         setRankByBranch(res.data.RESULT_DATA.data);
-        console.log(res);
-        console.log("Rank By Branch Items Loaded");
+        // console.log(res);
+        // console.log("Rank By Branch Items Loaded");
       })
       .catch((err) => console.log(err));
 
@@ -34,8 +34,8 @@ const RankList = () => {
       .get("/api/ranking/getRankByUnit")
       .then((res) => {
         setRankByUnit(res.data.RESULT_DATA.data);
-        console.log(res);
-        console.log("Rank By Unit Items Loaded");
+        // console.log(res);
+        // console.log("Rank By Unit Items Loaded");
       })
       .catch((err) => console.log(err));
 
