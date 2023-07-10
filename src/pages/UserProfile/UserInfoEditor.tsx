@@ -32,7 +32,7 @@ const UserInfoEditor = () => {
 
   const onCancelClick = (e: React.MouseEvent) => {
     if (window.confirm("취소하시겠습니까?")) {
-      window.location.replace("/");
+      window.location.replace("/UserProfile");
     }
   }
   const onSubmitClick = (e: React.MouseEvent) => {
@@ -46,6 +46,7 @@ const UserInfoEditor = () => {
         "phone": phone,
         "unit": unit
       });
+      window.location.replace("/UserProfile");
     }
   }
 
