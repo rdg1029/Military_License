@@ -1,3 +1,7 @@
+import { RANK_UNIT_DATA } from "@/utils/DataClass";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 interface RankCardProps {
   rank: number;
   unitName: string;
@@ -26,15 +30,31 @@ const RankCard = (props: RankCardProps) => {
 }
 
 const UnitRank = () => {
-  return (
+  const req = axios.create();
+  const [rankByUnit, setRankByUnit] = useState<Array<RANK_UNIT_DATA>>();
+
+  useEffect(() => {
+    req
+      .get("/api/ranking/getRankByUnit")
+      .then((res) => {
+        setRankByUnit(res.data.RESULT_DATA.data);
+        // console.log(res);
+       // console.log("Rank By Unit Items Loaded");
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  return (rankByUnit ?
     <div className="flex flex-col w-full pt-10 pr-5 pl-5">
       <p className="text-sm">우리 부대 더 강하게!</p>
       <h1 className="text-2xl font-bold text-orange-600">우리 부대 자격증 랭킹</h1>
-      <RankCard rank={1} unitName="제8기동사단" mp={1200} />
-      <RankCard rank={2} unitName="방공관제사령부" mp={1000} />
-      <RankCard rank={3} unitName="제3보병사단" mp={900} />
+      <RankCard rank={1} unitName={rankByUnit[0].name} mp={rankByUnit[0].mp} />
+      <RankCard rank={2} unitName={rankByUnit[1].name} mp={rankByUnit[1].mp} />
+      <RankCard rank={3} unitName={rankByUnit[2].name} mp={rankByUnit[2].mp} />
       <p className="text-sm text-orange-600 text-center underline mt-1">상위 3개 부대를 확인 할 수 있어요.</p>
     </div>
+    :
+    <></>
   );
 }
 
