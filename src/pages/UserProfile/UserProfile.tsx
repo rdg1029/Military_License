@@ -5,6 +5,7 @@ import { USER_DATA } from "@/utils/DataClass";
 import axios from "axios";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initFirebase } from "@/utils/FirebaseUtil";
+import UserInfoEditor from "./UserInfoEditor";
 
 const UserProfile = () => {
   const sampleData = "sample"; //홍길동씨
@@ -19,6 +20,7 @@ const UserProfile = () => {
     phone: "",
     unit: "",
   });
+  const [isRegistered, setRegistered] = useState(true);
 
   useEffect(() => {
     const req = axios.create();
@@ -32,13 +34,18 @@ const UserProfile = () => {
         .get(`/api/profile/getUserData/${user?.uid}`)
         .then((res) => {
           // console.log(res.data.RESULT_DATA);
+          const userData = res.data.RESULT_DATA;
+          if (!userData.email) {
+            setRegistered(false);
+            return;
+          }
           setUserData(res.data.RESULT_DATA);
       })
       .catch((err) => console.log(err));
     });
   }, []);
 
-  return (
+  return (isRegistered ?
     <div className="flex justify-center items-center">
       <div className="flex flex-col justify-center items-start pt-20">
         <UserInformation props={userData} />
@@ -48,6 +55,8 @@ const UserProfile = () => {
         <UserLicenseList list={userData.license_list}/>
       </div>
     </div>
+    :
+    <UserInfoEditor />
   );
 };
 
