@@ -20,7 +20,7 @@ const LicenseList = () => {
     []
   );
 
-  const reqGetListAll = () => {
+  useEffect(() => {
     req
       .get("/api/license/getListAll")
       .then((res) => {
@@ -30,9 +30,7 @@ const LicenseList = () => {
         // console.log("all items loaded");
       })
       .catch((err) => console.log(err));
-  }
 
-  const reqGetListByCount = () => {
     req
       .get("/api/license/getListByCount")
       .then((res) => {
@@ -40,9 +38,9 @@ const LicenseList = () => {
         // console.log("count data loaded");
       })
       .catch((err) => console.log(err));
-  }
+  }, []);
 
-  const reqGetListByClass = () => {
+  useEffect(() => {
     let reqArray: Array<LICENSE_LIST_DATA> = [];
     let targetArray = ClassEventMap.find(
       (item) => item.classCode === selectClassCode
@@ -62,9 +60,9 @@ const LicenseList = () => {
           .catch((err) => console.log(err));
       }
     }
-  }
+  }, [selectClassCode]);
 
-  const reqGetListByType = () => {
+  useEffect(() => {
     req
       .get(`/api/license/getListByCode/${selectJmCode}`)
       .then((res) => {
@@ -72,14 +70,7 @@ const LicenseList = () => {
         setListByType(res.data.RESULT_DATA.data);
       })
       .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    reqGetListAll();
-    reqGetListByCount();
-    reqGetListByClass();
-    reqGetListByType();
-  }, []);
+  }, [selectJmCode]);
 
   return isLoaded ? (
     <>
